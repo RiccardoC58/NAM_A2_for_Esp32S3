@@ -12752,8 +12752,11 @@
 
           // Init web socket when the page loads
 
-          const isSerialMode = (window.location.protocol === 'file:');
-
+          const isSerialMode = (
+              window.location.protocol === 'file:' ||
+              window.location.hostname.includes('github.io') || // tto work with a obile phone
+              window.location.search.includes('serial=1')
+          );
           window.addEventListener('load', onload);
 
 
@@ -12764,6 +12767,8 @@
                   console.log("Modalità Seriale rilevata");
                   // Mostra il pulsante per connettere la porta USB
                   document.getElementById('btn-serial').style.display = 'inline-block';
+                  document.getElementById('btn-wifi').style.display = 'none';
+                  document.getElementById('btn-bt').style.display = 'none';
               } else {
                   console.log("Modalità Wi-Fi (WebSocket) rilevata");
                   document.getElementById('btn-serial').style.display = 'none';
@@ -14110,9 +14115,10 @@
       </script>
 
       <!-- Pulsante visibile solo in modalità Seriale -->
-      <button id="btn-serial" style="display: none;" onclick="initSerial()">
-          Connetti ESP32 (USB)
+      <button id="btn-serial" style="display: none; padding: 12px 20px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; margin: 10px;" onclick="initSerial()">
+          🔌 Connetti ESP32 (USB)
       </button>
+
 
       <nav class="navbar navbar-dark bg-dark">
           <label style="margin-left: 10px; font-size: 30px; color:#FB9230;">NAM A2 Smart Pedal</label>
@@ -14153,7 +14159,8 @@
           <button class="tablinks" onclick="openTab(event, 'Amplifier')">Amp</button>
           <button class="tablinks" onclick="openTab(event, 'Global')">Global</button>
           <button class="tablinks" onclick="openTab(event, 'Presets')">Presets</button>
-          <button class="tablinks" onclick="openTab(event, 'Bluetooth')">BT</button>
+          <button class="tablinks" id ="btn-bt" onclick="openTab(event, 'Bluetooth')">BT</button>
+          <button class="tablinks" id ="btn-wifi" onclick="openTab(event, 'WiFi')">WiFi</button>
           <button class="tablinks" onclick="openTab(event, 'Midi')">Midi</button>
           <button class="tablinks" onclick="openTab(event, 'USB')">USB</button>
           <button class="tablinks" onclick="openTab(event, 'Miscellaneous')">Misc</button>
@@ -14958,7 +14965,8 @@
               <h5 class="selected_text">Acknowledgements</h5>
               <p class="lead">
                   <label class="form-check-label">Original designed Hardware, firmware adapted starting from the work published in </label>
-                  <label class="form-check-label">https://github.com/Builty/TonexOneController</label>
+                  <label class="form-check-label">https://github.com/dashersw/coyopedal</label>
+				  <label class="form-check-label">developmend details code and schematic diagrams in https://github.com/RiccardoC58/NAM_A2_for_ESP32S3</label>
               </p>
           </div>
       </div>
@@ -15001,3 +15009,4 @@
 
   </body>
 </html>
+
